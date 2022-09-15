@@ -7,48 +7,46 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class TaskService {
+  apiURL = environment.taskAPIUrl;
+  endpoint = '/tasks';
 
-    apiURL = environment.taskAPIUrl
-    endpoint = "/tasks"
+  constructor(public http: HttpClient) {}
 
-  constructor(public http: HttpClient) { }
-
-  getTasks(){
-    return this.http.get<Task[]>(`${this.apiURL}${this.endpoint}`)
+  getTasks() {
+    return this.http.get<Task[]>(`${this.apiURL}${this.endpoint}`);
   }
 
-  postTask(task: NewTask){
-    return this.http.post<Task>("http://localhost:3000/tasks", task)
+  postTask(task: NewTask) {
+    return this.http.post<Task>('http://localhost:3000/tasks', task);
   }
 
-  updateTask(task: Task){
-    return this.http.put<Task>(`http://localhost:3000/tasks/${task._id}`, task)
+  updateTask(task: Task) {
+    return this.http.put<Task>(`http://localhost:3000/tasks/${task._id}`, task);
   }
 
-  deleteTask(task: Task){
-    return this.http.delete<Task>(`http://localhost:3000/tasks/${task._id}`)
+  deleteTask(task: Task) {
+    return this.http.delete<Task>(`http://localhost:3000/tasks/${task._id}`);
   }
 
-  validateTask(task: Task):boolean{
-    if(task.status && TaskStatus[task.status]){
-        return true
-    }else {
-        return false
+  validateTask(task: Task): boolean {
+    if (task.status && TaskStatus[task.status]) {
+      return true;
+    } else {
+      return false;
     }
   }
 
-  filterTaskById(tasks: Task[], taskToFilter: Task): Task[]{
-    return tasks.filter((task)=> taskToFilter._id !== task._id)
+  filterTaskById(tasks: Task[], taskToFilter: Task): Task[] {
+    return tasks.filter((task) => taskToFilter._id !== task._id);
   }
 
-  updateTasks(tasks: Task[], taskToUpdate: Task): Task[]{
-    return tasks.map((task)=> {
-        if(task._id == taskToUpdate._id){
-            return taskToUpdate
-        }else{
-            return task
-        }
-    })
+  updateTasks(tasks: Task[], taskToUpdate: Task): Task[] {
+    return tasks.map((task) => {
+      if (task._id == taskToUpdate._id) {
+        return taskToUpdate;
+      } else {
+        return task;
+      }
+    });
   }
-
 }
