@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="task-container">
+    <h1 class="mb-4 mt-2">Tareas Juan Daniel Trejo</h1>
+
+    <div class="mb-4">
+      <div class="input-group">
+        <input
+          type="text"
+          [(ngModel)]="newTask"
+          class="form-control"
+          placeholder="Escribe la descripción de tu tarea"
+        />
+
+        <button
+          (click)="postTask(newTask)"
+          class="btn btn-sm btn-outline-primary"
+        >
+          Agregar
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="!fetchingTasks">
+      <div>
+        <h2 class="mb-4">Pendientes</h2>
+
+        <div *ngFor="let task of tasks" class="mb-4">
+          <div *ngIf="task.status == 'PENDING'" class="input-group">
+            <input type="text" [(ngModel)]="task.task" class="form-control" />
+
+            <div class="btn-group">
+              <button
+                (click)="changeTaskStatus(task, 'DONE')"
+                class="btn btn-sm btn-outline-success"
+              >
+                Completada
+              </button>
+
+              <button
+                (click)="updateTask(task)"
+                class="btn btn-sm btn-outline-primary"
+              >
+                Editar
+              </button>
+              <button
+                (click)="deleteTask(task)"
+                class="btn btn-sm btn-outline-danger"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="mb-4">Completadas</h2>
+
+        <div *ngFor="let task of tasks" class="mb-2">
+          <div class="mb-2">
+            <div *ngIf="task.status == 'DONE'" class="input-group">
+              <input type="text" [(ngModel)]="task.task" class="form-control" />
+
+              <div class="btn-group">
+                <button
+                  (click)="changeTaskStatus(task, 'PENDING')"
+                  class="btn btn-sm btn-outline-dark"
+                >
+                  Pendiente
+                </button>
+                <button
+                  (click)="updateTask(task)"
+                  class="btn btn-sm btn-outline-primary"
+                >
+                  Editar
+                </button>
+                <button
+                  (click)="deleteTask(task)"
+                  class="btn btn-sm btn-outline-danger"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="fetchingTasks" class="d-flex justify-content-center">
+      <div class="spinner-grow text-dark m-4" role="status">
+        <span class="sr-only"></span>
+      </div>
+
+      <div class="spinner-grow text-dark m-4" role="status">
+        <span class="sr-only"></span>
+      </div>
+
+      <div class="spinner-grow text-dark m-4" role="status">
+        <span class="sr-only"></span>
+      </div>
+    </div>
+  </div>
+</div>
